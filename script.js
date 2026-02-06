@@ -1,42 +1,42 @@
 /* =========================
    MASTER VALENTINE JS
-   Scene-based • No Scroll
+   Scene-based • No Scroll • Bulletproof Init
 ========================= */
 
 let scenes = [];
 let current = 0;
 
-/* ===== Scene Control ===== */
 function showScene(index) {
+  if (!scenes.length) return;
+
   current = Math.max(0, Math.min(index, scenes.length - 1));
-  scenes.forEach((s, i) => {
-    s.classList.toggle("is-active", i === current);
-  });
+  scenes.forEach((s, i) => s.classList.toggle("is-active", i === current));
 }
 
 function nextScene() {
   showScene(current + 1);
 }
 
-/* Called by your HTML button */
+/* Called by your HTML Continue button */
 function startExperience() {
   nextScene();
   startHeartsOnce();
 }
 
-/* YES button */
+/* Called by YES button */
 function sayYes() {
   const yesScene = document.getElementById("yesScreen");
-  const idx = scenes.findIndex(s => s === yesScene);
+  const idx = scenes.indexOf(yesScene);
   if (idx !== -1) showScene(idx);
   burstHearts(30);
 }
 
-/* ===== NO Button Dodge ===== */
-const noBtn = document.getElementById("noBtn");
-const btnWrap = document.querySelector(".buttons");
+/* NO button dodge */
+function setupNoButton() {
+  const noBtn = document.getElementById("noBtn");
+  const btnWrap = document.querySelector(".buttons");
+  if (!noBtn || !btnWrap) return;
 
-if (noBtn && btnWrap) {
   const dodge = () => {
     const w = btnWrap.offsetWidth / 2;
     const x = (Math.random() * 2 - 1) * w;
@@ -48,30 +48,34 @@ if (noBtn && btnWrap) {
   noBtn.addEventListener("touchstart", dodge, { passive: true });
 }
 
-/* ===== Auto Next Buttons ===== */
+/* Add Next buttons automatically */
 function addNextButtons() {
   scenes.forEach((scene, i) => {
     if (i === scenes.length - 1) return;
     if (scene.classList.contains("question")) return;
     if (scene.id === "yesScreen") return;
 
+    // Prevent duplicates
+    if (scene.querySelector(".next-btn")) return;
+
     const btn = document.createElement("button");
+    btn.type = "button";
     btn.textContent = "Next →";
     btn.className = "next-btn";
-    btn.onclick = nextScene;
+    btn.addEventListener("click", nextScene);
     scene.appendChild(btn);
   });
 }
 
-/* ===== Hearts ===== */
+/* Hearts */
 function createHeart(dx = 0) {
   const h = document.createElement("div");
   h.className = "heart";
   h.style.left = Math.random() * 100 + "vw";
   h.style.setProperty("--dx", dx + "px");
-  h.style.setProperty("--dur", 5 + Math.random() * 3 + "s");
+  h.style.setProperty("--dur", (5 + Math.random() * 3) + "s");
   document.body.appendChild(h);
-  setTimeout(() => h.remove(), 8000);
+  setTimeout(() => h.remove(), 9000);
 }
 
 function startHearts() {
@@ -79,20 +83,29 @@ function startHearts() {
 }
 
 function burstHearts(n = 12) {
-  for (let i = 0; i < n; i++) {
-    createHeart(Math.random() * 500 - 250);
-  }
+  for (let i = 0; i < n; i++) createHeart(Math.random() * 500 - 250);
 }
 
 function startHeartsOnce() {
-  if (window.__hearts) return;
-  window.__hearts = true;
+  if (window.__heartsStarted) return;
+  window.__heartsStarted = true;
   startHearts();
 }
 
-/* ===== Init ===== */
-document.addEventListener("DOMContentLoaded", () => {
+/* Init (runs safely whether DOM is ready or already loaded) */
+function init() {
   scenes = Array.from(document.querySelectorAll("section"));
+  if (!scenes.length) return;
+
   addNextButtons();
+  setupNoButton();
+
+  // Force show first scene always
   showScene(0);
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
