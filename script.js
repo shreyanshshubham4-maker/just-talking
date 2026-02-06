@@ -1,87 +1,55 @@
-/* =========================
-   Scene navigation + heart bursts
-========================= */
+const scenes = [...document.querySelectorAll(".scene")];
+let index = 0;
 
-const scenes = Array.from(document.querySelectorAll(".scene"));
-let current = 0;
+/* INIT */
+scenes[0].classList.add("active");
 
-function showScene(i) {
-  if (!scenes.length) return;
-  current = Math.max(0, Math.min(i, scenes.length - 1));
-  scenes.forEach((s, idx) => s.classList.toggle("is-active", idx === current));
-}
-
-function burstHearts(n = 14) {
-  for (let i = 0; i < n; i++) {
+/* HEART BURST */
+function hearts(count = 16) {
+  for (let i = 0; i < count; i++) {
     const h = document.createElement("div");
     h.className = "heart";
-
-    const left = 20 + Math.random() * 60;
-    const dx = (Math.random() * 2 - 1) * 320;
-    const dur = 3.8 + Math.random() * 1.8;
-
-    h.style.left = `${left}vw`;
-    h.style.setProperty("--dx", `${dx}px`);
-    h.style.setProperty("--dur", `${dur}s`);
-
+    h.style.left = Math.random() * 100 + "vw";
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), (dur + 0.3) * 1000);
+    setTimeout(() => h.remove(), 4000);
   }
 }
 
-function nextScene() {
-  burstHearts(18);
-  showScene(current + 1);
+/* NEXT SLIDE */
+function next() {
+  hearts(18);
+  scenes[index].classList.remove("active");
+  index++;
+  if (scenes[index]) scenes[index].classList.add("active");
 }
 
-function goToYes() {
-  burstHearts(34);
-  const yesIndex = scenes.findIndex(s => s.id === "yesScreen");
-  if (yesIndex >= 0) showScene(yesIndex);
+/* NEXT BUTTONS */
+document.querySelectorAll(".next").forEach(btn =>
+  btn.addEventListener("click", next)
+);
+
+/* LOADING BAR AUTO-ADVANCE */
+const loading = document.querySelector(".loading .progress");
+if (loading) {
+  setTimeout(() => {
+    loading.style.transition = "width 2.8s linear";
+    loading.style.width = "100%";
+    setTimeout(next, 3000);
+  }, 400);
 }
 
-function restart() {
-  burstHearts(22);
-  showScene(0);
-}
+/* YES / NO */
+const yesBtn = document.getElementById("yesBtn");
+if (yesBtn) yesBtn.onclick = () => {
+  hearts(30);
+  scenes[index].classList.remove("active");
+  scenes.find(s => s.id === "yesScreen").classList.add("active");
+};
 
-function setupButtons() {
-  // Every .next goes to next scene + heart burst
-  document.querySelectorAll("button.next").forEach(btn => {
-    btn.addEventListener("click", nextScene);
-  });
-
-  // YES
-  const yesBtn = document.getElementById("yesBtn");
-  if (yesBtn) yesBtn.addEventListener("click", goToYes);
-
-  // NO dodges
-  const noBtn = document.getElementById("noBtn");
-  const wrap = document.querySelector(".buttons");
-  if (noBtn && wrap) {
-    const dodge = () => {
-      const maxX = (wrap.offsetWidth - noBtn.offsetWidth) / 2;
-      const x = (Math.random() * 2 - 1) * maxX;
-      const y = (Math.random() * 2 - 1) * 24;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    };
-    noBtn.addEventListener("mouseenter", dodge);
-    noBtn.addEventListener("touchstart", dodge, { passive: true });
-    noBtn.addEventListener("click", () => { burstHearts(10); dodge(); });
-  }
-
-  // Replay
-  const restartBtn = document.querySelector("button.restart");
-  if (restartBtn) restartBtn.addEventListener("click", restart);
-}
-
-function init() {
-  setupButtons();
-  showScene(0);
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  init();
+const noBtn = document.getElementById("noBtn");
+if (noBtn) {
+  noBtn.onmouseenter = () => {
+    noBtn.style.transform =
+      `translate(${(Math.random()*60)-30}px, ${(Math.random()*20)-10}px)`;
+  };
 }
