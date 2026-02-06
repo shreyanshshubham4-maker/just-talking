@@ -1,123 +1,98 @@
-// --- Smooth start: scroll + kick off effects ---
+/* =========================
+   MASTER VALENTINE JS
+   Scene-based • No Scroll
+========================= */
+
+let scenes = [];
+let current = 0;
+
+/* ===== Scene Control ===== */
+function showScene(index) {
+  current = Math.max(0, Math.min(index, scenes.length - 1));
+  scenes.forEach((s, i) => {
+    s.classList.toggle("is-active", i === current);
+  });
+}
+
+function nextScene() {
+  showScene(current + 1);
+}
+
+/* Called by your HTML button */
 function startExperience() {
-  const recap = document.getElementById("recap");
-  recap.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  // Start hearts once user interacts (better for performance + feels intentional)
-  if (!window.__heartsStarted) {
-    window.__heartsStarted = true;
-    startHearts();
-  }
+  nextScene();
+  startHeartsOnce();
 }
 
-// --- YES flow ---
+/* YES button */
 function sayYes() {
-  const q = document.querySelector(".question");
-  const yes = document.getElementById("yesScreen");
-
-  if (q) q.style.display = "none";
-  if (yes) yes.classList.remove("hidden");
-
-  yes.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  // make it EXTRA when she says yes
-  burstHearts(26);
+  const yesScene = document.getElementById("yesScreen");
+  const idx = scenes.findIndex(s => s === yesScene);
+  if (idx !== -1) showScene(idx);
+  burstHearts(30);
 }
 
-// --- NO button dodge (dramatic + not annoying on mobile) ---
+/* ===== NO Button Dodge ===== */
 const noBtn = document.getElementById("noBtn");
-const buttonsWrap = document.querySelector(".buttons");
+const btnWrap = document.querySelector(".buttons");
 
-if (noBtn && buttonsWrap) {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+if (noBtn && btnWrap) {
   const dodge = () => {
-    if (prefersReducedMotion) return;
-
-    const wrapRect = buttonsWrap.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
-
-    // keep movement inside the button wrapper area
-    const maxX = (wrapRect.width - btnRect.width) / 2;
-    const maxY = 26;
-
-    const x = (Math.random() * 2 - 1) * maxX;
-    const y = (Math.random() * 2 - 1) * maxY;
-    const rot = (Math.random() * 2 - 1) * 10;
-
-    noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+    const w = btnWrap.offsetWidth / 2;
+    const x = (Math.random() * 2 - 1) * w;
+    const y = (Math.random() * 2 - 1) * 24;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
   };
 
   noBtn.addEventListener("mouseenter", dodge);
   noBtn.addEventListener("touchstart", dodge, { passive: true });
+}
 
-  noBtn.addEventListener("click", () => {
-    noBtn.textContent = "Nice try.";
-    burstHearts(10);
+/* ===== Auto Next Buttons ===== */
+function addNextButtons() {
+  scenes.forEach((scene, i) => {
+    if (i === scenes.length - 1) return;
+    if (scene.classList.contains("question")) return;
+    if (scene.id === "yesScreen") return;
+
+    const btn = document.createElement("button");
+    btn.textContent = "Next →";
+    btn.className = "next-btn";
+    btn.onclick = nextScene;
+    scene.appendChild(btn);
   });
 }
 
-// --- Scroll reveal (makes the page feel “premium”) ---
-const sections = Array.from(document.querySelectorAll("section"));
-sections.forEach((s) => s.classList.add("reveal"));
-
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) e.target.classList.add("is-visible");
-    });
-  },
-  { threshold: 0.18 }
-);
-
-sections.forEach((s) => io.observe(s));
-
-// --- Floating hearts engine ---
-function makeHeart(options = {}) {
+/* ===== Hearts ===== */
+function createHeart(dx = 0) {
   const h = document.createElement("div");
   h.className = "heart";
-
-  // randomize start position & drift
-  const left = options.left ?? Math.random() * 100;
-  const dx = options.dx ?? (Math.random() * 260 - 130);
-  const dur = options.dur ?? (4.8 + Math.random() * 2.8);
-
-  h.style.left = `${left}vw`;
-  h.style.setProperty("--dx", `${dx}px`);
-  h.style.setProperty("--dur", `${dur}s`);
-
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.setProperty("--dx", dx + "px");
+  h.style.setProperty("--dur", 5 + Math.random() * 3 + "s");
   document.body.appendChild(h);
-
-  // cleanup
-  setTimeout(() => {
-    h.remove();
-  }, (dur + 0.2) * 1000);
+  setTimeout(() => h.remove(), 8000);
 }
 
 function startHearts() {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
-
-  // steady stream
-  window.__heartInterval = setInterval(() => {
-    makeHeart();
-  }, 520);
-
-  // occasional stronger wave
-  setInterval(() => {
-    burstHearts(8);
-  }, 5200);
+  setInterval(() => createHeart(Math.random() * 300 - 150), 600);
 }
 
-function burstHearts(n = 14) {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
-
+function burstHearts(n = 12) {
   for (let i = 0; i < n; i++) {
-    makeHeart({
-      left: 20 + Math.random() * 60,
-      dx: Math.random() * 360 - 180,
-      dur: 4.2 + Math.random() * 2.2
-    });
+    createHeart(Math.random() * 500 - 250);
   }
 }
+
+function startHeartsOnce() {
+  if (window.__hearts) return;
+  window.__hearts = true;
+  startHearts();
+}
+
+/* ===== Init ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  scenes = Array.from(document.querySelectorAll("section"));
+  addNextButtons();
+  showScene(0);
+});
