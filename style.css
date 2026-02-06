@@ -1,13 +1,9 @@
 /* =========================
    MASTER VALENTINE CSS
-   Centered • No Scroll • Cinematic
+   Centered • No Scroll • Cinematic • Bulletproof
 ========================= */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --bg0: #05060a;
@@ -24,12 +20,12 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: ui-serif, Georgia, "Times New Roman", serif;
+  color: var(--text);
   background:
     radial-gradient(1200px 800px at 50% -20%, rgba(124,77,255,.25), transparent 60%),
     radial-gradient(900px 600px at 20% 10%, rgba(255,79,216,.25), transparent 60%),
     radial-gradient(1000px 800px at 85% 25%, rgba(255,46,111,.20), transparent 55%),
     linear-gradient(180deg, var(--bg0), var(--bg1));
-  color: var(--text);
 }
 
 /* Soft animated aurora */
@@ -87,7 +83,16 @@ section {
   transition: opacity 700ms ease, transform 700ms ease;
 }
 
+/* Active scene */
 section.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ✅ BULLETPROOF FALLBACK:
+   If JS doesn't run for any reason, show the first section anyway */
+section:first-of-type {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -96,10 +101,6 @@ section.is-active {
 /* =========================
    GLASS CARD
 ========================= */
-
-section > * {
-  max-width: 900px;
-}
 
 .hero,
 .section,
@@ -111,6 +112,7 @@ section > * {
   background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
   border: 1px solid rgba(255,255,255,.18);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 28px 80px rgba(0,0,0,.55);
   text-align: center;
 }
@@ -137,16 +139,8 @@ p {
   margin: 10px 0;
 }
 
-.small {
-  font-size: .95rem;
-  opacity: .8;
-}
-
-.tiny {
-  font-size: .9rem;
-  opacity: .75;
-  margin-bottom: 14px;
-}
+.small { font-size: .95rem; opacity: .8; }
+.tiny  { font-size: .9rem; opacity: .75; margin-bottom: 14px; }
 
 /* =========================
    CARDS
@@ -189,9 +183,7 @@ p {
   animation: load 3s forwards;
 }
 
-@keyframes load {
-  to { width: 100%; }
-}
+@keyframes load { to { width: 100%; } }
 
 /* =========================
    BUTTONS
@@ -206,11 +198,12 @@ button {
   background: rgba(255,255,255,.95);
   color: #0b0c14;
   box-shadow: 0 18px 50px rgba(0,0,0,.4);
-  transition: transform .15s ease;
+  transition: transform .15s ease, filter .15s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
+  filter: drop-shadow(0 0 18px rgba(255,79,216,.18));
 }
 
 .buttons {
@@ -222,20 +215,17 @@ button:hover {
 }
 
 /* YES glow */
+#yesBtn { position: relative; }
 #yesBtn::after {
   content: "";
   position: absolute;
   inset: -12px;
-  background:
-    radial-gradient(circle, rgba(255,79,216,.35), transparent 60%);
+  background: radial-gradient(circle, rgba(255,79,216,.35), transparent 60%);
   filter: blur(18px);
   z-index: -1;
 }
 
-/* =========================
-   NEXT BUTTON
-========================= */
-
+/* NEXT */
 .next-btn {
   margin-top: 22px;
   background: rgba(255,255,255,.12);
@@ -271,18 +261,16 @@ button:hover {
 }
 
 .heart::before { left: -8px; }
-.heart::after { top: -8px; }
+.heart::after  { top: -8px; }
 
 @keyframes float {
   from { opacity: 0; transform: translateY(0) rotate(45deg); }
-  10% { opacity: 1; }
-  to { opacity: 0; transform: translate(var(--dx), -140vh) rotate(45deg); }
+  10%  { opacity: 1; }
+  to   { opacity: 0; transform: translate(var(--dx), -140vh) rotate(45deg); }
 }
 
 /* =========================
    HIDDEN
 ========================= */
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
