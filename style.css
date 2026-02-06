@@ -338,3 +338,66 @@ button:active {
   .card { width: min(320px, 92vw); }
   section { padding: 80px 14px; }
 }
+
+/* ====== FIX: TRUE CENTERING (kills left-sided layout) ====== */
+section {
+  width: 100%;
+}
+
+.hero,
+.section,
+.question,
+#yesScreen {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* If your hero is inside a section and still looks offset, this forces center */
+section > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ====== NO-SCROLL "SCENE" MODE ====== */
+html, body {
+  height: 100%;
+  overflow: hidden; /* no scroll */
+}
+
+/* Each section becomes a full-screen scene */
+section {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 92px 18px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+/* Active scene */
+section.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Nice "Next" button style (JS will add it automatically) */
+.next-btn {
+  margin-top: 22px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.next-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.5);
+}
+
