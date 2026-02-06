@@ -1,10 +1,10 @@
 const scenes = [...document.querySelectorAll(".scene")];
 let index = 0;
 
-/* INIT */
+/* ---------- INIT ---------- */
 scenes[0].classList.add("active");
 
-/* HEART BURST */
+/* ---------- HEARTS ---------- */
 function hearts(count = 16) {
   for (let i = 0; i < count; i++) {
     const h = document.createElement("div");
@@ -15,41 +15,50 @@ function hearts(count = 16) {
   }
 }
 
-/* NEXT SLIDE */
-function next() {
-  hearts(18);
+/* ---------- SCENE SWITCH ---------- */
+function goToScene(i) {
+  if (!scenes[i]) return;
   scenes[index].classList.remove("active");
-  index++;
-  if (scenes[index]) scenes[index].classList.add("active");
+  index = i;
+  scenes[index].classList.add("active");
 }
 
-/* NEXT BUTTONS */
-document.querySelectorAll(".next").forEach(btn =>
-  btn.addEventListener("click", next)
-);
+function nextScene() {
+  hearts(18);
+  goToScene(index + 1);
+}
 
-/* LOADING BAR AUTO-ADVANCE */
-const loading = document.querySelector(".loading .progress");
-if (loading) {
+/* ---------- GLOBAL NEXT HANDLER (KEY FIX) ---------- */
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("next")) {
+    nextScene();
+  }
+});
+
+/* ---------- LOADING BAR (REAL SUSPENSE) ---------- */
+const loadingProgress = document.querySelector(".loading .progress");
+if (loadingProgress) {
   setTimeout(() => {
-    loading.style.transition = "width 2.8s linear";
-    loading.style.width = "100%";
-    setTimeout(next, 3000);
+    loadingProgress.style.transition = "width 2.8s linear";
+    loadingProgress.style.width = "100%";
+    setTimeout(() => nextScene(), 3000);
   }, 400);
 }
 
-/* YES / NO */
+/* ---------- YES / NO ---------- */
 const yesBtn = document.getElementById("yesBtn");
-if (yesBtn) yesBtn.onclick = () => {
-  hearts(30);
-  scenes[index].classList.remove("active");
-  scenes.find(s => s.id === "yesScreen").classList.add("active");
-};
+if (yesBtn) {
+  yesBtn.addEventListener("click", () => {
+    hearts(36);
+    const yesIndex = scenes.findIndex(s => s.id === "yesScreen");
+    goToScene(yesIndex);
+  });
+}
 
 const noBtn = document.getElementById("noBtn");
 if (noBtn) {
-  noBtn.onmouseenter = () => {
+  noBtn.addEventListener("mouseenter", () => {
     noBtn.style.transform =
-      `translate(${(Math.random()*60)-30}px, ${(Math.random()*20)-10}px)`;
-  };
+      `translate(${(Math.random() * 60) - 30}px, ${(Math.random() * 20) - 10}px)`;
+  });
 }
