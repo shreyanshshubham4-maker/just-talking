@@ -1,24 +1,26 @@
 /* =========================
-   MASTER VALENTINE CSS
-   Centered • No Scroll • Cinematic • Bulletproof
+   VALENTINE SCENE SITE
+   No-scroll • Cinematic • GitHub Pages safe
 ========================= */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg0: #05060a;
-  --bg1: #0b0c14;
-  --pink: #ff4fd8;
-  --rose: #ff2e6f;
-  --violet: #7c4dff;
-  --text: #f5f7ff;
-  --muted: rgba(245,247,255,.75);
+:root{
+  --bg0:#05060a;
+  --bg1:#0b0c14;
+  --pink:#ff4fd8;
+  --rose:#ff2e6f;
+  --violet:#7c4dff;
+  --text:#f5f7ff;
+  --muted:rgba(245,247,255,.74);
+  --stroke:rgba(255,255,255,.18);
+  --glass1:rgba(255,255,255,.08);
+  --glass2:rgba(255,255,255,.04);
 }
 
-html, body {
-  width: 100%;
+html, body{
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* no scrolling */
   font-family: ui-serif, Georgia, "Times New Roman", serif;
   color: var(--text);
   background:
@@ -28,50 +30,50 @@ html, body {
     linear-gradient(180deg, var(--bg0), var(--bg1));
 }
 
-/* Soft animated aurora */
-body::before {
-  content: "";
+/* animated aurora */
+body::before{
+  content:"";
   position: fixed;
   inset: -40vmax;
+  z-index: -2;
   background:
     radial-gradient(circle at 25% 30%, rgba(255,79,216,.22), transparent 45%),
     radial-gradient(circle at 70% 25%, rgba(124,77,255,.20), transparent 45%),
     radial-gradient(circle at 55% 75%, rgba(255,46,111,.18), transparent 45%);
   filter: blur(30px);
-  animation: aurora 14s ease-in-out infinite alternate;
-  z-index: -2;
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
-@keyframes aurora {
+@keyframes drift{
   from { transform: translate(-2%, -1%) rotate(-2deg); }
   to   { transform: translate(2%, 1%) rotate(2deg); }
 }
 
-/* Grain + vignette */
-body::after {
-  content: "";
+/* vignette + subtle scanline grain */
+body::after{
+  content:"";
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: -1;
   background:
     radial-gradient(70% 55% at 50% 35%, rgba(255,255,255,.06), transparent 62%),
     radial-gradient(120% 90% at 50% 120%, rgba(0,0,0,.9), rgba(0,0,0,1)),
     repeating-linear-gradient(
       0deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.035) 1px,
+      rgba(255,255,255,.03),
+      rgba(255,255,255,.03) 1px,
       transparent 1px,
       transparent 3px
     );
   opacity: .6;
-  z-index: -1;
 }
 
 /* =========================
-   SCENE SYSTEM (NO SCROLL)
+   SCENES
 ========================= */
 
-section {
+.scene{
   position: fixed;
   inset: 0;
   display: grid;
@@ -80,19 +82,17 @@ section {
   opacity: 0;
   transform: translateY(14px);
   pointer-events: none;
-  transition: opacity 700ms ease, transform 700ms ease;
+  transition: opacity 650ms ease, transform 650ms ease;
 }
 
-/* Active scene */
-section.is-active {
+.scene.is-active{
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-/* ✅ BULLETPROOF FALLBACK:
-   If JS doesn't run for any reason, show the first section anyway */
-section:first-of-type {
+/* fallback (if JS fails, show first scene) */
+.scene:first-of-type{
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -102,51 +102,40 @@ section:first-of-type {
    GLASS CARD
 ========================= */
 
-.hero,
-.section,
-.question,
-#yesScreen {
-  width: min(960px, 92%);
+.glass{
+  width: min(960px, 92vw);
   padding: 56px 22px;
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(180deg, var(--glass1), var(--glass2));
+  border: 1px solid var(--stroke);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 28px 80px rgba(0,0,0,.55);
   text-align: center;
 }
 
-/* =========================
-   TEXT
-========================= */
-
-h1 {
-  font-size: clamp(2.3rem, 5vw, 3.5rem);
+h1{
+  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  letter-spacing: -0.02em;
   margin-bottom: 14px;
   text-shadow: 0 0 28px rgba(255,79,216,.18);
 }
-
-h2 {
+h2{
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   margin-bottom: 14px;
 }
 
-p {
+p{
+  color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.55;
-  color: var(--muted);
   margin: 10px 0;
 }
+.small{ font-size: .95rem; opacity: .85; }
+.tiny { font-size: .92rem; opacity: .78; }
 
-.small { font-size: .95rem; opacity: .8; }
-.tiny  { font-size: .9rem; opacity: .75; margin-bottom: 14px; }
-
-/* =========================
-   CARDS
-========================= */
-
-.cards {
+/* cards */
+.cards{
   display: flex;
   gap: 18px;
   flex-wrap: wrap;
@@ -154,7 +143,7 @@ p {
   margin-top: 14px;
 }
 
-.card {
+.card{
   width: 240px;
   padding: 18px;
   border-radius: 18px;
@@ -163,33 +152,26 @@ p {
   box-shadow: 0 16px 40px rgba(0,0,0,.4);
 }
 
-/* =========================
-   LOADING BAR
-========================= */
-
-.bar {
+/* loading bar */
+.bar{
   width: min(520px, 80%);
   height: 12px;
   margin: 20px auto;
   border-radius: 999px;
   overflow: hidden;
   background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.14);
 }
-
-.progress {
+.progress{
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, var(--pink), var(--violet), var(--rose));
   animation: load 3s forwards;
 }
+@keyframes load{ to{ width: 100%; } }
 
-@keyframes load { to { width: 100%; } }
-
-/* =========================
-   BUTTONS
-========================= */
-
-button {
+/* buttons */
+button{
   padding: 12px 26px;
   font-size: 1.05rem;
   border-radius: 999px;
@@ -200,13 +182,13 @@ button {
   box-shadow: 0 18px 50px rgba(0,0,0,.4);
   transition: transform .15s ease, filter .15s ease;
 }
-
-button:hover {
+button:hover{
   transform: translateY(-2px);
   filter: drop-shadow(0 0 18px rgba(255,79,216,.18));
 }
+button:active{ transform: translateY(0); }
 
-.buttons {
+.buttons{
   margin-top: 24px;
   display: flex;
   gap: 14px;
@@ -215,29 +197,35 @@ button:hover {
 }
 
 /* YES glow */
-#yesBtn { position: relative; }
-#yesBtn::after {
-  content: "";
-  position: absolute;
-  inset: -12px;
+#yesBtn{ position: relative; }
+#yesBtn::after{
+  content:"";
+  position:absolute;
+  inset:-12px;
   background: radial-gradient(circle, rgba(255,79,216,.35), transparent 60%);
   filter: blur(18px);
-  z-index: -1;
+  z-index:-1;
 }
 
-/* NEXT */
-.next-btn {
-  margin-top: 22px;
-  background: rgba(255,255,255,.12);
+/* link button */
+.music-link{
+  display: inline-block;
+  margin-top: 18px;
+  text-decoration: none;
   color: white;
-  border: 1px solid rgba(255,255,255,.3);
+  border: 1px solid rgba(255,255,255,.35);
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.music-link:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.55);
 }
 
-/* =========================
-   HEARTS
-========================= */
-
-.heart {
+/* hearts */
+.heart{
   position: fixed;
   top: 110%;
   width: 16px;
@@ -249,28 +237,24 @@ button:hover {
   pointer-events: none;
   z-index: 10;
 }
-
 .heart::before,
-.heart::after {
-  content: "";
+.heart::after{
+  content:"";
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 16px; height: 16px;
   background: inherit;
   border-radius: 50%;
 }
+.heart::before{ left: -8px; }
+.heart::after{ top: -8px; }
 
-.heart::before { left: -8px; }
-.heart::after  { top: -8px; }
-
-@keyframes float {
-  from { opacity: 0; transform: translateY(0) rotate(45deg); }
-  10%  { opacity: 1; }
-  to   { opacity: 0; transform: translate(var(--dx), -140vh) rotate(45deg); }
+@keyframes float{
+  0%   { opacity: 0; transform: translateY(0) rotate(45deg); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx), -140vh) rotate(45deg); }
 }
 
-/* =========================
-   HIDDEN
-========================= */
-
-.hidden { display: none; }
+@media (max-width: 520px){
+  .card{ width: min(320px, 92vw); }
+  .glass{ padding: 44px 16px; border-radius: 24px; }
+}
