@@ -2,82 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Just Talking</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
+  <!-- Scene 1 -->
+  <section class="scene is-active">
+    <div class="glass">
+      <h1>This is not a relationship.</h1>
+      <p class="small">Relax. We’re just talking.</p>
+      <p class="tiny">Very intensely. Every night. While sleeping.</p>
+      <p class="tiny">Best experienced with headphones 🎧</p>
 
-  <section class="hero">
-    <h1>This is not a relationship.</h1>
-    <p>Relax. We’re just talking.</p>
-    <p class="small">Very intensely. Every night. While sleeping.</p>
-    <p class="tiny">Best experienced with headphones 🎧</p>
-    <button onclick="startExperience()">Continue (platonically)</button>
-  </section>
-
-  <section id="recap" class="section">
-    <h2>Previously, in this “Talking Stage”</h2>
-    <div class="cards">
-      <div class="card">Episode 1: Accidentally matching on hinge & ending the first chat with 🧿</div>
-      <div class="card">Episode 3: Saying “I like you” and pretending it changed nothing</div>
-      <div class="card">Episode 6: Sleeping on call like it’s normal</div>
-      <div class="card">Season finale: Pending</div>
+      <button class="next">Continue (platonically)</button>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Important Clarification</h2>
-    <p>No labels have been used.</p>
-    <p>No commitments have been claimed.</p>
-    <p>Yet somehow…</p>
-    <p>We talk every day.</p>
-    <p>We fall asleep together.</p>
-    <p>You’re the last voice I hear at night.</p>
-  </section>
+  <!-- Scene 2 -->
+  <section class="scene">
+    <div class="glass">
+      <h2>Quick recap</h2>
+      <p>Somehow… you became my favorite notification.</p>
+      <p>And my favorite person to annoy.</p>
 
-  <section class="section manifesto">
-    <h2>Rules of Our Talking Stage</h2>
-    <ul>
-      <li>Still technically single.</li>
-      <li>Emotionally? Suspicious.</li>
-      <li>Pretending we’re chill.</li>
-      <li>Absolutely not chill.</li>
-      <li>“We are not dating!” is a valid response.</li>
-    </ul>
-  </section>
-
-  <section class="section loading">
-    <p>Analyzing current situation…</p>
-    <div class="bar">
-      <div class="progress"></div>
-    </div>
-    <p class="final-text">Conclusion forming…</p>
-  </section>
-
-  <section class="section question">
-    <h1>Since we’re “just talking”…</h1>
-    <h2>Baby, would you be my Valentine?</h2>
-    <div class="buttons">
-      <button id="yesBtn" onclick="sayYes()">YES</button>
-      <button id="noBtn">NO</button>
+      <button class="next">Next →</button>
     </div>
   </section>
 
-  <section id="yesScreen" class="section hidden">
-    <h1>Okay.</h1>
-    <h2>Then for Valentine’s Day… it’s us.</h2>
-    <p>Still talking.</p>
-    <p>Just with a little more meaning.</p>
-    <p class="sign">— Penguin 🐧</p>
-    <p class="small">Goodnight. See you on call.</p>
+  <!-- Scene 3 -->
+  <section class="scene">
+    <div class="glass">
+      <h2>Three undeniable facts</h2>
 
-    <a class="music-link"
-       href="https://open.spotify.com/search/Anuv%20Jain"
-       target="_blank">
-       Press play for the vibe 🎶
-    </a>
+      <div class="cards">
+        <div class="card">1) You’re effortlessly adorable.</div>
+        <div class="card">2) I pretend I’m chill. I’m not.</div>
+        <div class="card">3) I like you. A lot.</div>
+      </div>
+
+      <button class="next">Next →</button>
+    </div>
   </section>
 
-<script src="script.js"></script>
+  <!-- Scene 4 -->
+  <section class="scene">
+    <div class="glass">
+      <h2>Loading courage…</h2>
+      <div class="bar"><div class="progress"></div></div>
+      <p class="small">Compiling feelings…</p>
+
+      <button class="next">Next →</button>
+    </div>
+  </section>
+
+  <!-- Scene 5 (Question) -->
+  <section class="scene question">
+    <div class="glass">
+      <h2>So… will you be my Valentine?</h2>
+      <p class="small">(No pressure. But also… yes pressure.)</p>
+
+      <div class="buttons">
+        <button id="yesBtn" class="yes">YES 💖</button>
+        <button id="noBtn" class="no">no</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 6 (Yes Screen) -->
+  <section class="scene" id="yesScreen">
+    <div class="glass">
+      <h2>Okay wow. You said YES.</h2>
+      <p class="small">I will be insufferably happy about this.</p>
+      <p class="small">Now we celebrate. 🎉</p>
+
+      <a class="music-link" target="_blank" rel="noopener noreferrer"
+         href="https://open.spotify.com/search/valentine%20playlist">
+        Open a cute playlist →
+      </a>
+
+      <p class="sign">— from me, with ridiculously good taste</p>
+
+      <button class="restart">Replay ↻</button>
+    </div>
+  </section>
+
+  <script src="./script.js"></script>
 </body>
 </html>
