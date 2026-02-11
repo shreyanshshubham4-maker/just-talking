@@ -2,98 +2,115 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Just Talking</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <div class="hearts"></div>
 
-  <section class="scene">
-    <div class="glass">
-      <h1>This is not a relationship.</h1>
-      <p>Relax. We’re just talking.</p>
-      <p class="small">Very intensely. Every night. While sleeping.</p>
-      <p class="tiny">Best experienced with headphones 🎧</p>
-      <button class="next">Next →</button>
-    </div>
-  </section>
+  <div class="progress">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
 
-  <section class="scene">
-    <div class="glass">
-      <h2>Previously, in this “Talking Stage”</h2>
-      <div class="cards">
-        <div class="card">Episode 1: Accidentally matching on hinge & ending the first chat with 🧿</div>
-        <div class="card">Episode 3: Saying “I like you” and pretending it changed nothing</div>
-        <div class="card">Episode 6: Sleeping on call like it’s normal</div>
-        <div class="card">Season finale: Pending</div>
+  <main id="app">
+
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <div class="content">
+        <h1>This is not a relationship.</h1>
+        <p>Relax. We’re just talking.</p>
+        <p class="muted">Very intensely. Every night. While sleeping.</p>
+        <button onclick="nextSlideWithDelay(this)">Continue (platonically)</button>
       </div>
-      <button class="next">Next →</button>
-    </div>
-  </section>
+    </section>
 
-  <section class="scene">
-    <div class="glass">
-      <h2>Important Clarification</h2>
-      <p>No labels have been used.</p>
-      <p>No commitments have been claimed.</p>
-      <p>Yet somehow…</p>
-      <p>We talk every day.</p>
-      <p>We fall asleep together.</p>
-      <p>You’re the last voice I hear at night.</p>
-      <button class="next">Next →</button>
-    </div>
-  </section>
-
-  <section class="scene">
-    <div class="glass">
-      <h2>Rules of Our Talking Stage</h2>
-      <ul>
-        <li>Still technically single.</li>
-        <li>Emotionally? Suspicious.</li>
-        <li>Pretending we’re chill.</li>
-        <li>Absolutely not chill.</li>
-        <li>“We are not dating!” is a valid response.</li>
-      </ul>
-      <button class="next">Next →</button>
-    </div>
-  </section>
-
-  <section class="scene loading">
-    <div class="glass">
-      <p>Analyzing current situation…</p>
-      <div class="bar"><div class="progress"></div></div>
-      <p class="final-text">Conclusion forming…</p>
-    </div>
-  </section>
-
-  <section class="scene question">
-    <div class="glass">
-      <h1>Since we’re “just talking”…</h1>
-      <h2>Baby, would you be my Valentine?</h2>
-      <div class="buttons">
-        <button id="yesBtn">YES</button>
-        <button id="noBtn">NO</button>
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="content">
+        <h2>Previously, in this “Talking Stage”</h2>
+        <ul class="episodes">
+          <li>Episode 1 — We matched.</li>
+          <li>Episode 2 — We talked.</li>
+          <li>Episode 3 — We talked… more.</li>
+          <li>Episode 4 — Calls became nightly.</li>
+          <li>Episode 5 — Falling asleep together.</li>
+          <li>Season finale — Pending.</li>
+        </ul>
+        <button onclick="nextSlideWithDelay(this)">Continue</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="scene" id="yesScreen">
-    <div class="glass">
-      <h1>Okay.</h1>
-      <h2>Then for Valentine’s Day… it’s us.</h2>
-      <p>Still talking.</p>
-      <p>Just with a little more meaning.</p>
-      <p class="sign">— Penguin 🐧</p>
-      <p class="small">Goodnight. See you on call.</p>
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="content">
+        <h2>Important clarification</h2>
+        <p>No labels. No commitments.</p>
+        <p class="highlight">But somehow you’re the last voice I hear every night.</p>
+        <button onclick="nextSlideWithDelay(this)">Okay wow</button>
+      </div>
+    </section>
 
-      <a class="music-link"
-         href="https://open.spotify.com/search/Anuv%20Jain"
-         target="_blank">
-         Press play for the vibe 🎶
-      </a>
-    </div>
-  </section>
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="content">
+        <h2>Rules of our talking stage</h2>
+        <p>Still technically single.</p>
+        <p class="highlight">Emotionally? Suspicious.</p>
+        <div class="loader">
+          <div class="bar"></div>
+        </div>
+        <p class="muted">Running emotional analysis…</p>
+        <button onclick="nextSlideWithDelay(this)">See results</button>
+      </div>
+    </section>
 
-<script src="script.js"></script>
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="content">
+        <h2>So…</h2>
+        <p class="highlight">Would you be my Valentine?</p>
+        <div class="actions">
+          <button class="yes" onclick="yes()">Yes 💖</button>
+          <button class="no" onclick="no()">Not yet 😳</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- YES Screen -->
+    <section class="slide" id="yes-slide">
+      <div class="content">
+        <h1>Then it’s us.</h1>
+        <p>Valentine’s Day — officially.</p>
+        <p class="signature">— Penguin 🐧</p>
+        <a class="music" href="https://open.spotify.com" target="_blank">
+          Play our vibe 🎧
+        </a>
+      </div>
+    </section>
+
+    <!-- NO Screen -->
+    <section class="slide" id="no-slide">
+      <div class="content">
+        <h2>That’s okay.</h2>
+        <p>No pressure. I just wanted to ask you properly.</p>
+        <div class="actions">
+          <button onclick="yes()">Okay fine… yes 😳</button>
+          <button onclick="reset()">Let’s do coffee ☕</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
