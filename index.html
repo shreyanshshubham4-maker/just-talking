@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Just Talking</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -65,9 +67,11 @@
         <h2>Rules of our talking stage</h2>
         <p>Still technically single.</p>
         <p class="highlight">Emotionally? Suspicious.</p>
+
         <div class="loader">
           <div class="bar"></div>
         </div>
+
         <p class="muted">Running emotional analysis…</p>
         <button onclick="nextSlideWithDelay(this)">See results</button>
       </div>
@@ -78,9 +82,10 @@
       <div class="content">
         <h2>So…</h2>
         <p class="highlight">Would you be my Valentine?</p>
+
         <div class="actions">
           <button class="yes" onclick="yes()">Yes 💖</button>
-          <button class="no" onclick="no()">Not yet 😳</button>
+          <button class="no" onclick="notYet()">Not yet 😳</button>
         </div>
       </div>
     </section>
@@ -91,21 +96,12 @@
         <h1>Then it’s us.</h1>
         <p>Valentine’s Day — officially.</p>
         <p class="signature">— Penguin 🐧</p>
-        <a class="music" href="https://open.spotify.com/track/1bMkimTb47umgNP6xCi4A1?si=65oLQBluRKGN_GPya5I_xQ" target="_blank">
+
+        <a class="music"
+           href="https://open.spotify.com/track/1bMkimTb47umgNP6xCi4A1?si=65oLQBluRKGN_GPya5I_xQ"
+           target="_blank" rel="noopener">
           Play our vibe 🎧
         </a>
-      </div>
-    </section>
-
-    <!-- NO Screen -->
-    <section class="slide" id="no-slide">
-      <div class="content">
-        <h2>That’s okay.</h2>
-        <p>No pressure. I just wanted to ask you properly.</p>
-        <div class="actions">
-          <button onclick="yes()">Okay fine… yes 😳</button>
-          <button onclick="reset()">Let’s do coffee ☕</button>
-        </div>
       </div>
     </section>
 
