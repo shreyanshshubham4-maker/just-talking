@@ -31,13 +31,8 @@ function yes() {
   document.getElementById("yes-slide").classList.add("active");
 }
 
-function no() {
-  slides[current].classList.remove("active");
-  document.getElementById("no-slide").classList.add("active");
-}
-
-function reset() {
-  location.reload();
+function notYet() {
+  window.location.href = "https://open.spotify.com/track/0TL0LFcwIBF5eX7arDIKxY?si=lt7r0FKvQJq1tzJK17xKDg";
 }
 
 /* Floating hearts */
